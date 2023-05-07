@@ -13,10 +13,7 @@ Firstly, you need browser with [Yandex Alice](https://yandex.ru/alice)
 
 Then you can open our skill from the [link](https://dialogs.yandex.ru/store/skills/9e37dc17-eto-chto-za-pokemo) and enjoy the game
 
-<img src="https://i.imgur.com/5M5rw3P.jpg" alt="Welcome message" width="300">
-<img src="https://i.imgur.com/r6rla8r.jpg" alt="In game" width="300">
-<img src="https://i.imgur.com/mBBhdvZ.jpg" alt="Lose message" width="300">
-
+<img src="https://i.imgur.com/5M5rw3P.jpg" alt="Welcome message" width="200"> <img src="https://i.imgur.com/r6rla8r.jpg" alt="In game" width="200"> <img src="https://i.imgur.com/mBBhdvZ.jpg" alt="Lose message" width="200">
 
 ## Contact
 
@@ -38,9 +35,7 @@ Also, you can subscribe to my [boosty](https://boosty.to/yesspeace)
 
 Затем, вы можете открыть наш навык по [ссылке](https://dialogs.yandex.ru/store/skills/9e37dc17-eto-chto-za-pokemo) и наслаждаться игрой
 
-<img src="https://i.imgur.com/5M5rw3P.jpg" alt="Welcome message" width="300">
-<img src="https://i.imgur.com/r6rla8r.jpg" alt="In game" width="300">
-<img src="https://i.imgur.com/mBBhdvZ.jpg" alt="Lose message" width="300">
+<img src="https://i.imgur.com/5M5rw3P.jpg" alt="Welcome message" width="200"> <img src="https://i.imgur.com/r6rla8r.jpg" alt="In game" width="200"> <img src="https://i.imgur.com/mBBhdvZ.jpg" alt="Lose message" width="200">
 
 ## Связаться с нами
 
