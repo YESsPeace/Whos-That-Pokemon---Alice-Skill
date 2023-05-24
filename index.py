@@ -49,8 +49,9 @@ def make_response(text, tts: str = None, card: dict = None, buttons: list = None
     return webhook_response
 
 def pokemon_is_over(event, text):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     old_pokemon = session['current_pokemon']
     score = session['score']
@@ -164,8 +165,9 @@ def pokemon_is_over(event, text):
     return make_response(text, buttons=buttons, state=state, card=card, user_state_update=user_state_update)
 
 def incorrect_choice(event):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     old_pokemon = session['current_pokemon']
     score = session['score']
@@ -292,8 +294,9 @@ def incorrect_choice(event):
 
 
 def repeat_incorrect_choice(event):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     old_pokemon = user['current_pokemon']
     score = user['score']
@@ -403,10 +406,11 @@ def repeat_incorrect_choice(event):
 
 
 def right_choice(event):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
     score = session['score']
     gen = session['generation']
-    user = event.get('state').get('user', {})
 
     old_pokemon = session['current_pokemon']
 
@@ -533,8 +537,9 @@ def right_choice(event):
 
 
 def repeat_right_choice(event):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     score = user['score']
     gen = user.get('generation')
@@ -674,8 +679,10 @@ def start_game(event):
                 except:
                     return fallback(event, text=text, tts=tts)
 
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
 
+    
     text = 'А вот и первый <3'
 
     tts = '<speaker audio="dialogs-upload/b4eadf08-ca7d-4fba-a5d0-95415be3a3cb/72e343ef-3276-48f6-90d1-7f39e7262325.opus"> ' + \
@@ -774,8 +781,9 @@ def repeat_start_game(event):
     else:
         gen = None
 
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     text = ' '
     tts = '<speaker audio="dialogs-upload/b4eadf08-ca7d-4fba-a5d0-95415be3a3cb/72e343ef-3276-48f6-90d1-7f39e7262325.opus">'
@@ -802,7 +810,8 @@ def repeat_start_game(event):
 
 
 def check_response(event):
-    session = event.get('state').get(STATE_REQUEST_KEY, {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
     message = str(event.get('request', {})['original_utterance']).lower().split()
 
     intents = event['request'].get('nlu', {}).get('intents')
@@ -872,8 +881,9 @@ def check_response(event):
 
 
 def help_in_game(event):
-    session = event['state'][STATE_REQUEST_KEY]
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
     pokemon = session['current_pokemon']
     current_pokemon_name = ru_poke_names[pokemon['ID']]
@@ -1307,10 +1317,11 @@ def abort_game(event):
         tts = '<speaker audio="dialogs-upload/b4eadf08-ca7d-4fba-a5d0-95415be3a3cb/9b376eb1-8f08-4817-b4e3-331d7e20fa5f.opus">. ' + \
               'Надеюсь ещё раз вас услышать.'
 
-    state = event['state'][STATE_REQUEST_KEY]
-    user = event.get('state', {}).get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
 
-    if not state.get('current_pokemon') is None:
+    if not session.get('current_pokemon') is None:
         old_pokemon = user['current_pokemon']
 
         delete_image(
@@ -1332,14 +1343,16 @@ def abort_game(event):
         'generation': None
     }
 
-    return make_response(text, tts=tts, state=state, user_state_update=user_state_update, end_session=True)
+    return make_response(text, tts=tts, state=session, user_state_update=user_state_update, end_session=True)
 
 
 def fallback(event, text='Извините, я вас не поняла.', tts=None,
              card_title=None):
-    state = event['state'].get(STATE_REQUEST_KEY, {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
+
     buttons = state.get('buttons')
-    user = event.get('state', {}).get('user', {})
     card = user.get('current_card')
 
     if (not card_title is None) and (not card is None):
@@ -1350,24 +1363,28 @@ def fallback(event, text='Извините, я вас не поняла.', tts=N
             card['header']['text'] = card_title
 
     return make_response(text, tts=tts, card=card, buttons=buttons,
-                         state=state, user_state_update=user)
+                         state=session, user_state_update=user)
 
 
 def nintendo_alert(event):
-    state = event['state'][STATE_REQUEST_KEY]
-    user = event.get('state').get('user', {})
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
+
     buttons = state.get('buttons')
 
     text = 'Мы сожалеем, что такая ситуация произошла.\n' + \
            'Сообщите о нарушении на нашу почту "damir.ernazarov.yesspeace@gmail.com" и мы тут же всё исправим.'
 
-    return make_response(text, state=state, buttons=buttons, user_state_update=user)
+    return make_response(text, state=session, buttons=buttons, user_state_update=user)
 
 
 def handler(event, context):
+    state = event.get('state', {})
+    session = state.get(STATE_REQUEST_KEY, {})
+    user = state.get('user', {})
+
     intents = event['request'].get('nlu', {}).get('intents')
-    session = event.get('state', {f'{STATE_REQUEST_KEY}': {}}).get(STATE_REQUEST_KEY, {})
-    user = event.get('state').get('user', {})
     message = str(event.get('request', {})['original_utterance']).lower()
 
     if event['session']['new'] is True:
