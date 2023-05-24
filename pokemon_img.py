@@ -10,7 +10,8 @@ def get_pokemon_closed_img(poke_img_url):
     poke_img = Image.open(BytesIO(response.content)).convert('RGBA')
     poke_img.thumbnail(size=(118, 118))
 
-    response = requests.get('https://i.imgur.com/Va7N775.png')
+    response = requests.get('https://sun9-59.userapi.com/impg/e68k9KrrQjP7PHxvdhXF39TrpSU1B3M_HbgMQA/HIGTGeJ__Jo.jpg?size=306x172&quality=95&sign=10932a0ece5d6c74f3c48e180e210454&type=album')
+
     back = Image.open(BytesIO(response.content)).convert('RGBA')
 
     red, green, blue, alpha = poke_img.split()
@@ -27,6 +28,7 @@ def get_pokemon_closed_img(poke_img_url):
     back.save(buf, format='PNG')
     image = buf.getvalue()
     buf.close()
+
 
     data = upload_image(oauth_code='y0_AgAAAAAU2kKeAAT7owAAAADez9M6baNM9fzIR32KsI4uBjYB3XZfmLo',
                         dialog_id='b4eadf08-ca7d-4fba-a5d0-95415be3a3cb',
